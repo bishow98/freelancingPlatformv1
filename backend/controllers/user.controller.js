@@ -53,6 +53,7 @@ export const register = async (req, res) => {
 //for login part
 
 export const login = async (req, res) => {
+  
   try {
     const { email, password, role } = req.body;
     // console.log(email,password,role);
@@ -64,6 +65,7 @@ export const login = async (req, res) => {
     }
 
     //check if user email matched or not
+    
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
