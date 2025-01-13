@@ -1,16 +1,18 @@
 import { Company } from "../models/company.model.js";
+import getDataUri from "../utils/datauri.js"
+import cloudinary from "../utils/cloudinary.js"
 
 //for registering a company
 export const registerCompany = async (req, res) => {
   try {
-    const { name } = req.body;
-    if (!name) {
+    const { companyName } = req.body;
+    if (!companyName) {
       return res.status(400).json({
         message: "Company Name is required",
         success: false,
       });
     }
-    const company = await Company.findOne({ name: name });
+    let company = await Company.findOne({ name: companyName });
     if (company) {
       return res.status(400).json({
         message: "Can't register the company with same name",
@@ -18,14 +20,15 @@ export const registerCompany = async (req, res) => {
       });
     }
 
-    const companyRegister = await Company.create({
-      name: name,
+    company = await Company.create({
+      name: companyName,
       userId: req.id,
     });
+    // console.log(company);
 
     return res.status(201).json({
       message: "Company registered successfully",
-      companyRegister,
+      company,
       success: true,
     });
   } catch (error) {
@@ -78,10 +81,14 @@ export const getCompanyById = async (req, res) => {
 export const updateCompany = async (req, res) => {
   try {
     const { name, description } = req.body;
+    console.log(name,description)
     const file = req.file;
     //for the image file cloudinary is used
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+    const logo = cloudResponse.secure_url;
 
-    const updateData = { name, description };
+    const updateData = { name, description,logo };
 
     const company = await Company.findByIdAndUpdate(req.params.id, updateData, {
       new: true,

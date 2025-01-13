@@ -1,6 +1,8 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 
 //registration of user. Here the input is taken from the req.body
@@ -22,6 +24,10 @@ export const register = async (req, res) => {
       });
     }
 
+    const file = req.file;
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
     //checking if user already exist or not
     const user = await User.findOne({ email });
     if (user) {
@@ -39,6 +45,9 @@ export const register = async (req, res) => {
       phoneNumber,
       password: hashedPassword,
       role,
+      profile:{
+        profilePhoto:cloudResponse.secure_url,
+      }
     });
 
     return res.status(201).json({
@@ -57,7 +66,7 @@ export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
     // console.log(email,password,role);
-    if (!email || !password || !role) {
+    if (!email || !password) {
       return res.status(400).json({
         message: "Something is missing",
         success: false,
@@ -83,12 +92,12 @@ export const login = async (req, res) => {
     }
 
     //check whether the role is correct or not
-    if (role !== user.role) {
-      return res.status(400).json({
-        message: "Account doesn't match with role",
-        success: false,
-      });
-    }
+    // if (role !== user.role) {
+    //   return res.status(400).json({
+    //     message: "Account doesn't match with role",
+    //     success: false,
+    //   });
+    // }
 
     const tokenData = {
       userId: user._id,
@@ -134,7 +143,15 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
+    // console.log(fullname,email,phoneNumber, bio, skills);
+    
     const file = req.file;
+
+    //cloudinary setup 
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+   
+
 
     // if (!fullname || !email || !phoneNumber || !bio || !skills) {
     //   return res.status(400).json({
@@ -167,6 +184,12 @@ export const updateProfile = async (req, res) => {
    if(phoneNumber) user.phoneNumber = phoneNumber;
    if(bio) user.profile.bio = bio;
    if(skills) user.profile.skills = skillsArray
+
+   //resume ko lagi uplaod ho yaha chai 
+   if(cloudResponse){
+    user.profile.resume = cloudResponse.secure_url // save the cloudinary url 
+    user.profile.resumeOriginalName = file.originalname; //save the original file name
+   }
 
     await user.save();
 

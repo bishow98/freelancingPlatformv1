@@ -1,10 +1,10 @@
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { RadioGroup } from "../ui/radio-group";
+// import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
 import Navbar from "../shared/Navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../utils/constants";
 import { toast } from "sonner";
@@ -16,9 +16,9 @@ const Login = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
-    role: "",
+    
   });
-  const { loading } = useSelector((store) => store.auth);
+  const { loading,user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //for all the input event to capture
@@ -45,6 +45,11 @@ const Login = () => {
         navigate("/"); // home ma navigate garney ho
         toast.success(res.data.message);
       }
+      //naya thapeko 
+      // if(res.data.userInfo.role === 'client'){
+      //  navigate(<Navbar/>)
+      // }
+
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error.response.data.message);
@@ -52,6 +57,12 @@ const Login = () => {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(()=>{
+    if(user){
+      navigate("/")
+    }
+  },[])
 
   return (
     <div>
@@ -82,7 +93,7 @@ const Login = () => {
               onChange={changeEventHandler}
             />
           </div>
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <RadioGroup className="flex items-center gap-4 my-5">
               <div className="flex items-center space-x-2">
                 <Input
@@ -107,7 +118,7 @@ const Login = () => {
                 <Label htmlFor="r2">Client</Label>
               </div>
             </RadioGroup>
-          </div>
+          </div> */}
           {loading ? (
             <Button className="w-full my-4">
               <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2>Please

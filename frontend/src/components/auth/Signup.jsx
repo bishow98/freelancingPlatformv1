@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import Navbar from "../shared/Navbar";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../utils/constants";
 import { Loader2 } from "lucide-react";
@@ -22,7 +22,7 @@ const Signup = () => {
     file: "",
   });
   const navigate = useNavigate();
-  const {loading} = useSelector(store=>store.auth);
+  const {loading,user} = useSelector(store=>store.auth);
   const dispatch = useDispatch();
   //for all the input event to capture except file
   const changeEventHandler = (e) => {
@@ -75,6 +75,13 @@ const Signup = () => {
       file: "",
     });
   };
+
+  //route protect gareko jastai: logged in user le signup ma janu vayena 
+  useEffect(()=>{
+    if(user){
+      navigate("/");
+    }
+  })
 
   return (
     <div>

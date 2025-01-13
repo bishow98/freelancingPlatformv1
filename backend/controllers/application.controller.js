@@ -150,6 +150,6 @@ export const updateStatus = async(req,res)=>{
         })
 
     } catch (error) {
-        console.log("Error at updateStatus: ",errror);
+        console.log("Error at updateStatus: ",error);
     }
 }
