@@ -41,6 +41,7 @@ const DashboardView = ({ allDetails }) => {
         withCredentials: true,
       })
       console.log(res);
+      setIsOpen(isOpen);
 
       // if (response.ok) {
       //   // Trigger onDelete callback to update parent component
@@ -140,8 +141,8 @@ const DashboardView = ({ allDetails }) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {recentUsersData.map((user) => (
-                    <TableRow key={user._id}>
+                  {recentUsersData.map((user,_id) => (
+                    <TableRow key={_id}>
                       <TableCell>{user?.fullname}</TableCell>
                       <TableCell>{user?.email}</TableCell>
                       <TableCell>{user?.role}</TableCell>

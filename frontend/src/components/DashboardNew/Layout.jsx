@@ -155,6 +155,28 @@ const Layout = () => {
     return <div className="flex items-center justify-center h-screen">Loading...</div>;
   }
 
+  // const handleDelete = async (id) => {
+  //   try {
+  //     // Make the API call to delete the item
+  //     const res = await axios.delete(${ADMIN_API_END_POINT}/delete/${id}, { withCredentials: true });
+      
+  //     if (res.data.success) {
+  //       // Update the allDetails state by filtering out the deleted item
+  //       const updatedDetails = allDetails.filter((item) => item.id !== id); // Assuming 'id' is the unique identifier
+  //       dispatch(setAllDetails(updatedDetails)); // Update the Redux store
+  
+  //       toast.success("Item deleted successfully!");
+  //     } else {
+  //       toast.error("Failed to delete the item.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting the item:", error);
+  //     toast.error("An error occurred while deleting the item.");
+  // }
+  // };
+
+
+
   const renderView = () => {
     switch (activeTab) {
       case "dashboard":
@@ -166,7 +188,7 @@ const Layout = () => {
       case "companies":
         return <CompaniesView allDetails={allDetails}/>;
       default:
-        return <DashboardView />;
+        return <DashboardView allDetails={allDetails} />;
     }
   };
 
