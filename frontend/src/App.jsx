@@ -15,6 +15,9 @@ import AdminJobs from './components/admin/AdminJobs'
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
+// import AdminDashboard from './components/adminDashboard/AdminDashboard'
+import AdminLogin from './components/adminDashboard/AdminLogin'
+import  Layout  from './components/DashboardNew/Layout'
 
 
 
@@ -49,7 +52,7 @@ const appRouter = createBrowserRouter([
     path:'/profile',
     element:<Profile/>
   },
-  //for the client or admit part yaha bata start hunxa 
+  //for the client or client admin part yaha bata start hunxa 
   {
     path:'/admin/companies',
     element:<ProtectedRoute><Companies/></ProtectedRoute>
@@ -74,7 +77,22 @@ const appRouter = createBrowserRouter([
     path:'/admin/jobs/:id/applicants',
     element:<ProtectedRoute><Applicants/></ProtectedRoute>
   },
-  
+  //for the overall admin part start from here 
+  {
+    path:'/superAdmin/login',
+    element:<AdminLogin/>
+    
+  },
+  // {
+  //   path:"/superAdmin/dashboard",
+  //   element:<AdminDashboard/>
+
+  // },
+  //another idea for admin this can be temporary 
+  {
+    path:'/superAdmin/dashboard',
+    element:<Layout/>
+  },
 ])
 function App() {
 
