@@ -161,7 +161,7 @@ const Layout = () => {
   //     const res = await axios.delete(${ADMIN_API_END_POINT}/delete/${id}, { withCredentials: true });
       
   //     if (res.data.success) {
-  //       // Update the allDetails state by filtering out the deleted item
+  //       // Update the allDetails state by filtering out the deleted item 
   //       const updatedDetails = allDetails.filter((item) => item.id !== id); // Assuming 'id' is the unique identifier
   //       dispatch(setAllDetails(updatedDetails)); // Update the Redux store
   

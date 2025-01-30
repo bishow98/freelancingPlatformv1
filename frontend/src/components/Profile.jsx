@@ -8,6 +8,7 @@ import { useState } from "react";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import { useSelector } from "react-redux";
 import useGetAppliedJobs from "../hooks/useGetAppliedJobs";
+import CVGenerator from "./CvGenerator";
 
 // const skills = ["HTML","CSS","React","Node","JavaScript"]
 const isResume = true;
@@ -34,6 +35,9 @@ const Profile = () => {
           </div>
           <Button onClick={()=>setOpen(true)} className="text-right" variant="outline">
             <Pen />
+          </Button>
+          <Button>
+            <CVGenerator/>
           </Button>
         </div>
         <div className="my-5">

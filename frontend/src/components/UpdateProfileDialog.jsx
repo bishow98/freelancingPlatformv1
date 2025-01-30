@@ -11,11 +11,12 @@ import { Loader2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_API_END_POINT } from "./utils/constants";
 import axios from "axios";
-import { setUser } from '@/redux/authSlice'
-import { toast } from 'sonner'
+import { setUser } from "@/redux/authSlice";
+import { toast } from "sonner";
+import InputSkills from "./InputSkills";
 
 // eslint-disable-next-line react/prop-types
-const UpdateProfileDialog = ( {open, setOpen} ) => {
+const UpdateProfileDialog = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((store) => store.auth);
   const [input, setInput] = useState({
@@ -33,12 +34,12 @@ const UpdateProfileDialog = ( {open, setOpen} ) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const fileChangeHandler= (e)=>{
+  const fileChangeHandler = (e) => {
     const file = e.target.files?.[0];
-    setInput({...input, file});
-  }
+    setInput({ ...input, file });
+  };
 
-  const submitHandler = async (e)=>{
+  const submitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("fullname", input.fullname);
@@ -46,36 +47,36 @@ const UpdateProfileDialog = ( {open, setOpen} ) => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("bio", input.bio);
     formData.append("skills", input.skills);
-    if(input.file){
-        formData.append("file", input.file);
+    if (input.file) {
+      formData.append("file", input.file);
     }
 
     try {
-        setLoading(true);
-        const res = await axios.post(`${USER_API_END_POINT}/profile/update`,formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-
-            },
-            withCredentials: true
-        })
-
-        if(res.data.success){
-            dispatch(setUser(res.data.userInfo));//backend ma j respond gareko xa tei garney userInfo 
-            toast.success(res.data.message);
-
+      setLoading(true);
+      const res = await axios.post(
+        `${USER_API_END_POINT}/profile/update`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
         }
-        
+      );
+
+      if (res.data.success) {
+        dispatch(setUser(res.data.userInfo)); //backend ma j respond gareko xa tei garney userInfo
+        toast.success(res.data.message);
+      }
     } catch (error) {
-        console.log(error)
-        toast.error(error.response.data.message);
-        
-    }finally{
-        setLoading(false);
+      console.log(error);
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
-    setOpen(false)
-    console.log(input)
-  }
+    setOpen(false);
+    console.log(input);
+  };
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -99,6 +100,7 @@ const UpdateProfileDialog = ( {open, setOpen} ) => {
                   value={input.fullname}
                   onChange={changeEventHandler}
                   className="col-span-3 border rounded-md pl-1"
+                  disabled
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -112,6 +114,7 @@ const UpdateProfileDialog = ( {open, setOpen} ) => {
                   value={input.email}
                   onChange={changeEventHandler}
                   className="col-span-3 border rounded-md pl-1"
+                  disabled
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -138,18 +141,24 @@ const UpdateProfileDialog = ( {open, setOpen} ) => {
                   className="col-span-3 border rounded-md pl-1"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              {/* <div className="grid grid-cols-4 items-center gap-4">
                 <label htmlFor="skills" className="text-right">
                   Skills:
                 </label>
-                <input
+                <div className="col-span-3"> */}
+                  <InputSkills
+                    input={input}
+                    changeEventHandler={changeEventHandler}
+                  />
+                {/* </div> */}
+                {/* <input
                   id="skills"
                   name="skills"
                   value={input.skills}
                   onChange={changeEventHandler}
                   className="col-span-3 border rounded-md pl-1"
-                />
-              </div>
+                /> */}
+              {/* </div> */}
               <div className="grid grid-cols-4 items-center gap-4">
                 <label htmlFor="file" className="text-right">
                   Resume:
