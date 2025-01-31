@@ -36,9 +36,15 @@ const Profile = () => {
           <Button onClick={()=>setOpen(true)} className="text-right" variant="outline">
             <Pen />
           </Button>
-          <Button>
-            <CVGenerator/>
-          </Button>
+          {/* <Button className="text-right">
+            <CVGenerator user={user}/>
+          </Button> */}
+        </div>
+        <div>
+        
+            <CVGenerator user={user}/>
+          
+
         </div>
         <div className="my-5">
           <div className="flex items-center gap-3 my-2">

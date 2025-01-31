@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { jsPDF } from 'jspdf';
 import { Button } from "@/components/ui/button";
 import {
@@ -15,20 +16,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { PlusCircle, Trash2, X } from 'lucide-react';
 
 // Mock database data - replace with your actual data fetching logic
-const userData = {
-  fullName: "John Doe",
-  email: "john@example.com",
-  phone: "+1234567890",
-  imageUrl: "https://spoonacular.com/recipeImages/604524-556x370.jpg?not-from-cache-please"
-};
 
-const CVGenerator = () => {
+
+const CVGenerator = ({user}) => {
+  const userData = {
+    fullName: `${user?.fullname}`,
+    email: `${user?.email}`,
+    phone: `${user?.phoneNumber}`,
+    imageUrl: `${user?.profile?.profilePhoto}`,
+  };
+
   const [formData, setFormData] = useState({
     // Pre-filled data from database
-    fullName: userData.fullName,
-    email: userData.email,
-    phone: userData.phone,
-    imageUrl: userData.imageUrl,
+    fullName: userData?.fullName,
+    email: userData?.email,
+    phone: userData?.phone,
+    imageUrl: userData?.imageUrl,
     // User input fields
     profile: '',
     skills: [],
@@ -216,10 +219,10 @@ const CVGenerator = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-0">
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="w-full md:w-auto">Generate CV</Button>
+          <Button className="w-full mt-4  md:w-auto">Generate CV</Button>
         </DialogTrigger>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
           <DialogHeader className="flex-shrink-0">
@@ -595,6 +598,16 @@ const CVGenerator = () => {
      </Dialog>
    </div>
  );
+};
+CVGenerator.propTypes = {
+  user: PropTypes.shape({
+    fullname: PropTypes.string,
+    email: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    profile: PropTypes.shape({
+      profilePhoto: PropTypes.string,
+    }),
+  }),
 };
 
 export default CVGenerator;
