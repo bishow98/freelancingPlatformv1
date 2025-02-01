@@ -1,5 +1,5 @@
 import express from "express";
-import { adminDashboard, adminLogin, adminLogout, adminRegister, removeUser } from "../controllers/admin.controller.js";
+import { adminDashboard, adminLogin, adminLogout, adminRegister, deleteCompany, deleteJob, removeUser } from "../controllers/admin.controller.js";
 import { adminAuthMiddleware } from "../middlewares/adminAuthMiddleware.js";
 
 
@@ -22,7 +22,13 @@ adminRoute.route("/logout").get(adminLogout)
 adminRoute.route("/dashboard").get(adminAuthMiddleware,adminDashboard);
 
 //for the remove of the users and their details 
-adminRoute.route("/remove/:id").delete(adminAuthMiddleware,removeUser)
+adminRoute.route("/removeUsersData/:id").delete(adminAuthMiddleware,removeUser)
+
+//for the remove of the jobs and their details 
+adminRoute.route("/removeJobsData/:id").delete(adminAuthMiddleware,deleteJob)
+
+//for the remove of the companies and their details 
+adminRoute.route("/removeCompaniesData/:id").delete(adminAuthMiddleware,deleteCompany)
 
 
 

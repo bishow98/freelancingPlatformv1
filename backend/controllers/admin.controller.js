@@ -180,32 +180,110 @@ export const adminDashboard = async (req, res) => {
   }
 };
 
-//user management part . like delete gardiney user lai haru chai yaha bata milxa
+
+
+//for the remove user that delete all the infromation about the both users freelancer and client
 export const removeUser = async (req, res) => {
   try {
     const userId = req.params.id;
+    const user = await User.findById(userId);
 
-    //delete freelancer applications
-    await Application.deleteMany({ _id: userId });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false
+      });
+    }
 
-    //delete jobs created by the client job lai matra delete garxa yesle chai
-    await Job.deleteMany({ _id: userId });
+    if (user.role === "freelancer") {
+      // Delete all applications by freelancer
+      await Application.deleteMany({ applicant: userId });
+    } 
+    else if (user.role === "client") {
+      // Delete client's companies and related data
+      const companies = await Company.find({ userId });
+      
+      for (const company of companies) {
+        // Delete company's jobs and applications
+        const jobs = await Job.find({ company: company._id });
+        
+        for (const job of jobs) {
+          await Application.deleteMany({ job: job._id });
+          await Job.findByIdAndDelete(job._id);
+        }
+        
+        await Company.findByIdAndDelete(company._id);
+      }
+      
+      // Delete any remaining jobs created by client
+      await Job.deleteMany({ created_by: userId });
+    }
 
-    //delete company created by the client
-    await Company.deleteMany({ _id: userId });
-
-    //delete the user that includes the client and freelancer
+    // Finally delete the user
     await User.findByIdAndDelete(userId);
 
     return res.status(200).json({
-      message: "User and related data deleted successfully",
-      success: true,
+      message: "User and all related data deleted successfully",
+      success: true
     });
   } catch (error) {
-    console.log("Error at the removeUser method: ", error);
+    console.error("Error in removeUser:", error);
     return res.status(500).json({
       message: "Internal Server Error",
-      success: false,
+      success: false
+    });
+  }
+};
+
+//for the deletion of jobs and their related data 
+export const deleteJob = async (req, res) => {
+  try {
+    const jobId = req.params.id;
+    
+    // Delete all applications for this job
+    await Application.deleteMany({ job: jobId });
+    
+    // Delete the job itself
+    await Job.findByIdAndDelete(jobId);
+
+    return res.status(200).json({
+      message: "Job and related applications deleted successfully",
+      success: true
+    });
+  } catch (error) {
+    console.error("Error in deleteJob:", error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false
+    });
+  }
+};
+
+//for the deletion of companies and their related data
+export const deleteCompany = async (req, res) => {
+  try {
+    const companyId = req.params.id;
+    
+    // Find and delete all company's jobs and applications
+    const jobs = await Job.find({ company: companyId });
+    
+    for (const job of jobs) {
+      await Application.deleteMany({ job: job._id });
+      await Job.findByIdAndDelete(job._id);
+    }
+    
+    // Delete the company
+    await Company.findByIdAndDelete(companyId);
+
+    return res.status(200).json({
+      message: "Company and all related jobs/applications deleted successfully",
+      success: true
+    });
+  } catch (error) {
+    console.error("Error in deleteCompany:", error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false
     });
   }
 };
