@@ -23,7 +23,7 @@ const HeroSection = () => {
           Search, Apply & <br /> Get Your{" "}
           <span className="text-[#6A38C2">Work Done</span>
         </h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolorem</p>
+        <p className="font-semibold">You&apos;re not just working, you&apos;re building your own empire</p>
         <div className="flex w-[40%] shadow-lg border border-gray-300 pl-3 rounded-full items-center gap-4 mx-auto">
             <input
             type="text"

@@ -18,14 +18,14 @@ const Footer = () => {
             <h2 className="text-2xl font-semibold text-center md:text-left">
               Contact us
             </h2>
-            <p className="text-gray-300">
+            <p className="text-black">
               Turning Your Visions into Victories with Work Done
             </p>
 
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <Mail className="h-5 w-5" />
-                <span>Email - xyz@gmail.com</span>
+                <span>Email - workdone@gmail.com</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="h-5 w-5" />
@@ -44,13 +44,13 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Email"
-                className="flex-1 px-3 py-2 rounded-md shadow-xl bg-white/10 border border-white/20 text-white placeholder:text-gray-400"
+                className="flex-1 px-3 py-2 rounded-md shadow-2xl bg-white/10 border border-white/20 text-black placeholder:text-gray-800"
               />
-              <button className="px-4 py-2 bg-white shadow-xl text-[#2B3A55] rounded-md hover:bg-gray-100 transition-colors">
+              <button className="px-4 py-2 bg-white shadow-2xl text-[#2B3A55] rounded-md hover:bg-gray-100 transition-colors">
                 Subscribe
               </button>
             </div>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-800">
               By Submitting your email, you agree to our Terms and Conditions.
             </p>
           </div>
@@ -73,13 +73,13 @@ const Footer = () => {
             </div>
             <div className="flex gap-4">
               <p>Follow Us</p>
-              <a href="#" className="hover:text-gray-300">
+              <a href="#" className="hover:text-gray-600">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="hover:text-gray-300">
+              <a href="#" className="hover:text-gray-600">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="hover:text-gray-300">
+              <a href="#" className="hover:text-gray-600">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -90,15 +90,17 @@ const Footer = () => {
         <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3">
             <div className="bg-white text-[#2B3A55] h-10 w-10 rounded-full flex items-center justify-center font-bold">
-              WD
+              <span className="text-black">W</span><span className="text-[#f83002]">D</span>
             </div>
-            <span className="font-medium">Your Task, Our Talent</span>
+            <span className="font-medium text-black">Your Task, Our Talent</span>
           </div>
-          <div className="text-sm text-gray-400">
-            2024 copyright • All Right Reserved
+          <div className="text-sm  text-black">
+            <p className="items-center">2024 copyright • All Right Reserved</p>
           </div>
         </div>
+        
       </div>
+      
     </footer>
   );
 };

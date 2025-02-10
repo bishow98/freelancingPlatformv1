@@ -34,7 +34,7 @@ const Layout = () => {
       }
     } catch (error) {
       console.error("Error fetching stats:", error);
-      toast.error("Failed to fetch dashboard data");
+      // toast.error("Failed to fetch dashboard data");
     } finally {
       setLoading(false);
     }
