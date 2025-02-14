@@ -45,24 +45,58 @@ const Navbar = () => {
         <div className="flex items-center gap-14">
           <ul className="flex font-medium items-center gap-5">
             {user && user.role === "client" ? (
+              // <>
+              //   <li>
+              //     <Link to="/admin/companies">Companies</Link>
+              //   </li>
+              //   <li>
+              //     <Link to="/admin/jobs">Jobs</Link>
+              //   </li>
+              // </>
               <>
                 <li>
-                  <Link to="/admin/companies">Companies</Link>
+                  <Link to="/admin/companies" className="relative group">
+                    Companies
+                    <span className="absolute left-0 bottom-0 h-0.5 bg-black w-0 transition-all duration-500 group-hover:w-full"></span>
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/admin/jobs">Jobs</Link>
+                  <Link to="/admin/jobs" className="relative group">
+                    Jobs
+                    <span className="absolute left-0 bottom-0 h-0.5 bg-black w-0 transition-all duration-500 group-hover:w-full"></span>
+                  </Link>
                 </li>
               </>
             ) : (
+              // <>
+              //   <li>
+              //     <Link to="/">Home</Link>
+              //   </li>
+              //   <li>
+              //     <Link to="/jobs">Jobs</Link>
+              //   </li>
+              //   <li>
+              //     <Link to="/browse">Browse</Link>
+              //   </li>
+              // </>
               <>
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/" className="relative group">
+                    Home
+                    <span className="absolute left-0 bottom-0 h-0.5 bg-black w-0 transition-all duration-500 group-hover:w-full"></span>
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/jobs">Jobs</Link>
+                  <Link to="/jobs" className="relative group">
+                    Jobs
+                    <span className="absolute left-0 bottom-0 h-0.5 bg-black w-0 transition-all duration-500 group-hover:w-full"></span>
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/browse">Browse</Link>
+                  <Link to="/browse" className="relative group">
+                    Browse
+                    <span className="absolute left-0 bottom-0 h-0.5 bg-black w-0 transition-all duration-500 group-hover:w-full"></span>
+                  </Link>
                 </li>
               </>
             )}
@@ -107,18 +141,15 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex flex-col my-2 text-gray-600">
-                  {
-                    user && user.role === "freelancer" && (
-                      <div className="flex w-fit items-center gap-2 cursor-pointer">
-                    <User2 />
-                    <Button variant="link">
-                      <Link to="profile">View Profile</Link>
-                    </Button>
-                  </div>
+                  {user && user.role === "freelancer" && (
+                    <div className="flex w-fit items-center gap-2 cursor-pointer">
+                      <User2 />
+                      <Button variant="link">
+                        <Link to="profile">View Profile</Link>
+                      </Button>
+                    </div>
+                  )}
 
-                    )
-                  }
-                  
                   <div className="flex w-fit items-center gap-2 cursor-pointer">
                     <LogOut />
                     <Button onClick={logoutHandler} variant="link">

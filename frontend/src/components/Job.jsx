@@ -4,10 +4,12 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import { Bookmark } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 const Job = ({job}) => {
   const navigate = useNavigate();
   // const jobId = "jkjjafjdsjfasjf";
+  const {user} = useSelector(store=>store.auth)
 
   const daysAgoFunction = (mongodbTime)=>{
     const createdAt = new Date(mongodbTime);
@@ -46,10 +48,16 @@ const Job = ({job}) => {
         <Badge className={'text-[#F83002] font-bold'} variant="ghost">{job?.jobType}</Badge>
         <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.budget}/hr</Badge>
       </div>
-      <div className="flex items-center gap-4 mt-4">
-        <Button onClick={()=>navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
+      {
+        user?.role === "freelancer" ? (
+        <div className="flex items-center gap-4 mt-4">
+          <Button onClick={()=>navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
+          <Button calssName="bg-[#7209b7]" >Save For Later</Button>
+        </div>) : (<div className="flex items-center gap-4 mt-4">
+        <Button onClick={()=>navigate(`/login`)} variant="outline">Details</Button>
         <Button calssName="bg-[#7209b7]" >Save For Later</Button>
-      </div>
+      </div>)
+      }
     </div>
   );
 };

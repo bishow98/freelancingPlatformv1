@@ -149,7 +149,13 @@ export const updateProfile = async (req, res) => {
 
     //cloudinary setup 
     const fileUri = getDataUri(file);
-    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content,{
+      // Add these options for PDF files
+      resource_type: 'auto',
+      format: 'pdf',
+      // Add this to ensure the file is accessible
+      access_mode: 'public'
+    });
    
 
 
@@ -178,6 +184,11 @@ export const updateProfile = async (req, res) => {
         })
     }
 
+    if(cloudResponse){
+      user.profile.resume = cloudResponse.url // save the cloudinary url 
+      user.profile.resumeOriginalName = file.originalname; //save the original file name
+     }
+
     //updating the data 
    if(fullname) user.fullname=fullname;
    if(email) user.email= email;
@@ -185,11 +196,11 @@ export const updateProfile = async (req, res) => {
    if(bio) user.profile.bio = bio;
    if(skills) user.profile.skills = skillsArray
 
-   //resume ko lagi uplaod ho yaha chai 
-   if(cloudResponse){
-    user.profile.resume = cloudResponse.secure_url // save the cloudinary url 
-    user.profile.resumeOriginalName = file.originalname; //save the original file name
-   }
+  //  //resume ko lagi uplaod ho yaha chai 
+  //  if(cloudResponse){
+  //   user.profile.resume = cloudResponse.secure_url // save the cloudinary url 
+  //   user.profile.resumeOriginalName = file.originalname; //save the original file name
+  //  }
 
     await user.save();
 

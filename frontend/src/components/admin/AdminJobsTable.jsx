@@ -34,13 +34,14 @@ useEffect(()=>{
 
   return (
     <div>
-      <Table>
+      {/* <Table>
         <TableCaption>A list of your recent jobs created </TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Company Name</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Date</TableHead>
+            <TableHead>Applications</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -50,6 +51,7 @@ useEffect(()=>{
               <TableCell>{job?.company?.name}</TableCell>
               <TableCell>{job?.title}</TableCell>
               <TableCell>{job?.createdAt.split("T")[0]}</TableCell>
+              <TableCell>{job?.applications.length}</TableCell>
               <TableCell className="text-right cursor-pointer">
                 <Popover>
                   <PopoverTrigger>
@@ -70,7 +72,46 @@ useEffect(()=>{
             </tr>
           ))}
         </TableBody>
-      </Table>
+      </Table> */}
+      <Table className="shadow-lg rounded-lg overflow-hidden">
+  <TableCaption>A list of your recent jobs created</TableCaption>
+  <TableHeader className="bg-gray-100">
+    <TableRow>
+      <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</TableHead>
+      <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</TableHead>
+      <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</TableHead>
+      <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applications</TableHead>
+      <TableHead className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {filterJobs?.map((job, index) => (
+      <TableRow key={job?._id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+        <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job?.company?.name}</TableCell>
+        <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job?.title}</TableCell>
+        <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job?.createdAt.split("T")[0]}</TableCell>
+        <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job?.applications.length}</TableCell>
+        <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-right">
+          <Popover>
+            <PopoverTrigger>
+              <MoreHorizontal className="w-4 h-4 cursor-pointer" />
+            </PopoverTrigger>
+            <PopoverContent className="w-32">
+              <div onClick={() => navigate(`/admin/companies/${job?._id}`)} className="flex items-center gap-2 w-fit cursor-pointer">
+                <Edit2 className="w-4" />
+                <span>Edit</span>
+              </div>
+              <div onClick={() => navigate(`/admin/jobs/${job?._id}/applicants`)} className="flex items-center gap-2 w-fit cursor-pointer mt-2">
+                <Eye className="w-4" />
+                <span>Applicants</span>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
     </div>
   );
 };

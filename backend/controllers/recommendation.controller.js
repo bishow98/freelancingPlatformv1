@@ -36,12 +36,12 @@ export const getRecommendedJobs = async (req, res) =>{
         //get recommendations chai yaha bata start garney 
         const recommendedJobs = RecommendationEngine.getRecommendedJobs(freelancerSkills,jobs, allSkills);
 
-        //filter jobs with at least 40% match 
-        const filteredJobs = recommendedJobs.filter(job=>job.matchPercentage >= 40);
+        //filter jobs with at least 60% match 
+        const filteredJobs = recommendedJobs.filter(job=>job.matchPercentage >= 60);
 
         return res.status(200).json({
             success:true,
-            data:{
+            alldata:{
                 recommendations: filteredJobs,
                 totalJobs: recommendedJobs.length,
                 userSkills: freelancerSkills
