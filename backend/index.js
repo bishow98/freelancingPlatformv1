@@ -40,7 +40,7 @@ app.use("/api/v1/job",jobRoute);
 app.use("/api/v1/application",applicationRoute)
 
 //for recommendation of jobs to the freelancer 
-app.use("/api/vi/recommendation",recommendationRoute);
+app.use("/api/v1/recommendation",recommendationRoute);
 
 //for admin route 
 app.use("/api/v1/admin",adminRoute)
