@@ -90,7 +90,7 @@ const Footer = () => {
         <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3">
             <div className="bg-white text-[#2B3A55] h-10 w-10 rounded-full flex items-center justify-center font-bold">
-              <span className="text-black">W</span><span className="text-[#f83002]">D</span>
+              <span className="text-black">W</span><span className="text-[#6A38C2]">D</span>
             </div>
             <span className="font-medium text-black">Your Task, Our Talent</span>
           </div>

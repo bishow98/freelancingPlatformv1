@@ -4,9 +4,6 @@ class RecommedationEngine {
         //create binary vector (1 if skills exists , 0 if not)
         return allSkills.map(skill=>skills.some(s=>s.toLowerCase()=== skill.toLowerCase()) ? 1 : 0);
     }
-
-
-
 //caculate vector magnitude 
 calculateMagnitude(vector){
     return Math.sqrt(vector.reduce((sum,val)=> sum + val*val, 0));
@@ -22,15 +19,11 @@ calculateCosineSimilarity(vector1, vector2){
     const dotProduct = this.calculateDotProduct(vector1, vector2);
     const magnitude1 = this.calculateMagnitude(vector1);
     const magnitude2 = this.calculateMagnitude(vector2);
-
-
 //avoid the division by zero error kaile kai ta divide by zero pani huna sakxa 
     if(magnitude1 === 0 || magnitude2 === 0) return 0 ;
 
     return dotProduct / (magnitude1 * magnitude2);
 }
-
-
 //get recommended jobs based on freelancer skills 
 getRecommendedJobs(freelancerSkills, jobs, allSkills) {
     const freelancerVector = this.createSkillVector(freelancerSkills,allSkills);
@@ -49,8 +42,4 @@ getRecommendedJobs(freelancerSkills, jobs, allSkills) {
 }).sort((a,b)=> b.similarityScore - a.similarityScore);
 }
 }
-
-
-
-
 export default new RecommedationEngine();

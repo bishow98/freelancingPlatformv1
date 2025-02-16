@@ -151,12 +151,14 @@ export const updateProfile = async (req, res) => {
     const fileUri = getDataUri(file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content,{
       // Add these options for PDF files
-      resource_type: 'auto',
+      resource_type: 'raw', //auto xa yaha 
       format: 'pdf',
       // Add this to ensure the file is accessible
       access_mode: 'public'
     });
    
+
+    
 
 
     // if (!fullname || !email || !phoneNumber || !bio || !skills) {
@@ -184,10 +186,18 @@ export const updateProfile = async (req, res) => {
         })
     }
 
+    // if(cloudResponse){
+    //   user.profile.resume = cloudResponse.url // save the cloudinary url 
+    //   user.profile.resumeOriginalName = file.originalname; //save the original file name
+    //  }
+
     if(cloudResponse){
-      user.profile.resume = cloudResponse.url // save the cloudinary url 
+      //Transform the URL from image/upload to raw/upload format ma translet gardiney 
+      const pdfUrl = cloudResponse.secure_url.replace('image/upload', 'raw/upload');
+      user.profile.resume = pdfUrl;
       user.profile.resumeOriginalName = file.originalname; //save the original file name
-     }
+    }
+    console.log(cloudResponse);
 
     //updating the data 
    if(fullname) user.fullname=fullname;
