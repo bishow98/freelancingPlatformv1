@@ -22,7 +22,7 @@ const Signup = () => {
     file: "",
   });
   const navigate = useNavigate();
-  const {loading,user} = useSelector(store=>store.auth);
+  const { loading, user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   //for all the input event to capture except file
   const changeEventHandler = (e) => {
@@ -48,8 +48,8 @@ const Signup = () => {
     }
 
     try {
-      dispatch(setLoading(true))
-    
+      dispatch(setLoading(true));
+
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -63,8 +63,8 @@ const Signup = () => {
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
-    }finally{
-      dispatch(setLoading(false))
+    } finally {
+      dispatch(setLoading(false));
     }
     setInput({
       fullname: "",
@@ -76,12 +76,12 @@ const Signup = () => {
     });
   };
 
-  //route protect gareko jastai: logged in user le signup ma janu vayena 
-  useEffect(()=>{
-    if(user){
+  //route protect gareko jastai: logged in user le signup ma janu vayena
+  useEffect(() => {
+    if (user) {
       navigate("/");
     }
-  })
+  });
 
   return (
     <div>
@@ -114,13 +114,22 @@ const Signup = () => {
           </div>
           <div>
             <Label>Phone Number</Label>
-            <Input
-              type="text"
-              placeholder="9800000000"
-              value={input.phoneNumber}
-              name="phoneNumber"
-              onChange={changeEventHandler}
-            />
+            <div className="flex items-center space-x-2">
+              <Input
+                type="text"
+                value="+977"
+                disabled
+                className="w-16 text-center bg-gray-100 border border-gray-300 rounded-md"
+              />
+              <Input
+                type="text"
+                placeholder="9800000000"
+                value={input.phoneNumber}
+                name="phoneNumber"
+                onChange={changeEventHandler}
+                className="flex-1"
+              />
+            </div>
           </div>
           <div>
             <Label>Password</Label>
