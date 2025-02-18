@@ -37,6 +37,15 @@ const userSchema = new Schema(
         type: String,
         default: "",
       },
+      ratings: {
+        type: [{
+          ratedBy: {type: mongoose.Schema.Types.ObjectId, ref: " User"},// user jasle chai rating dinxa 
+          rating: {type: Number, min:1, max: 5}, // rating value chai (1-5) samma matra hunxa 
+          job: {type: mongoose.Schema.Types.ObjectId, ref :"Job"} // job haru associated with the ratings 
+        }],
+        default: []  // default empty array nai hunxa 
+      },
+      averageRating: { type: Number, default: 0, min: 0, max: 5 }, // Ensure this is inside profile
     },
   },
   { timestamps: true }

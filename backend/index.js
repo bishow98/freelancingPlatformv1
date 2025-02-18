@@ -9,6 +9,7 @@ import jobRoute from "./routes/job.route.js"
 import applicationRoute from "./routes/application.route.js"
 import adminRoute from "./routes/admin.route.js";
 import recommendationRoute from "./routes/recommendation.route.js";
+import ratingRoute from "./routes/ratings.route.js";
 const app = express(); 
 
 dotenv.config({})
@@ -41,6 +42,9 @@ app.use("/api/v1/application",applicationRoute)
 
 //for recommendation of jobs to the freelancer 
 app.use("/api/v1/recommendation",recommendationRoute);
+
+//for the ratings of the freelancer and the company 
+app.use("/api/v1/ratings",ratingRoute);
 
 //for admin route 
 app.use("/api/v1/admin",adminRoute)

@@ -25,7 +25,7 @@ const Applicants = () => {
             }
         }
         fetchAllApplicants();
-    })
+    },[])
   return (
     <div>
         <Navbar/>
